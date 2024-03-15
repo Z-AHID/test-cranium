@@ -1,0 +1,448 @@
+*{
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+    --fontRoboto: 'Roboto';
+    --fontPoppins: 'Poppins';
+    --fontOzwald: 'Oswald';
+    --primaryColor:#789798;
+    --secondaryColor:#F2F2F0;
+    --thirdColor: #636565;
+    --fourthColor: #2C3333;
+}
+
+.right-pane{
+    height: 110vh;
+}
+.dashboard-main-section {
+    display: flex;
+    flex-direction: row;
+    height:90vh;
+    box-shadow: 0 4px 15px rgba(100, 100, 100, 0.60);
+
+}
+
+.dashboard-copyright{
+    height: 15vh;
+}
+
+.display-section {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--secondaryColor);
+}
+
+.upload-section {
+    width: 100%;
+    background-color: var(--primaryColor);
+}
+
+
+.image-upload-heading{
+    font-size: 24px;
+    margin-bottom: 2vh;
+    color: var(--fourthColor);
+    font-family: var(--fontPoppins);
+}
+
+.image-holding-section {
+    height: 53vh;
+    width: 28vw;
+    background-color: var(--secondaryColor);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    box-shadow: 0 0 15px rgba(100, 100, 100, 0.60);
+    overflow: hidden;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.image-holding-section span {
+    color: var(--fourthColor);
+    font-size: 18px;
+    font-weight: normal;
+    cursor: pointer;
+
+}
+
+.upload-button, .scan-button {
+    margin-top: 20px;
+    padding: 20px 35px;
+    font-size: 18px;
+    color: var(--secondaryColor);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.upload-button {
+    background-color: #3e4041;
+    display: flex;
+    align-self: center;
+    width: 60%;
+    height: 10%;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 6vh;
+    cursor: pointer;
+    box-shadow: 0 0 15px rgba(100, 100, 100, 0.60);
+}
+
+.upload-button:hover {
+    opacity: 0.95;
+    cursor: pointer;
+}
+
+.upload-button:active {
+    background-color: black;
+    cursor: pointer;
+}
+
+.scan-button {
+    background-color: black;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    height: 10%;
+    box-shadow: 0 0 15px rgba(100, 100, 100, 0.60);
+}
+
+.upload-button:hover {
+    background-color: #3b5160;
+    cursor: pointer;
+}
+
+.scan-button:hover {
+    background-color: black;
+    opacity: 0.85;
+    cursor: pointer;
+}
+
+.scan-button:active {
+    background-color: #3b5160;
+    cursor: pointer;
+}
+
+.result-section {
+    width: 50%;
+    background-color: var(--secondaryColor);
+    box-shadow: 0 4px 2px rgba(100, 100, 100, 0.60);
+}
+
+.result-section img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#dropArea {
+    border: 2px dashed var(--secondaryColor);
+    padding: 20px;
+    text-align: center;
+    transition: border-color 0.3s ease-in-out;
+    box-shadow: 0 0 15px rgba(100, 100, 100, 0.60);
+}
+
+#dropArea.active {
+    border-color: var(--fourthColor);
+}
+
+.image-holding-section img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
+}
+
+.image-holding-section:hover {
+    box-shadow: 0 0 15px rgba(100, 100, 100, 0.60);
+    transform: scale(1.015);
+}
+
+.result-section{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.magnifying-glass{
+    height: 10vh;
+    width: 10vh;
+    background-color: var(--primaryColor);
+    border-radius: 50%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 15px rgba(100, 100, 100, 0.60);
+    z-index: 10000;
+}
+
+.disease-status {
+    height: 40%;
+    width: 75%;
+    border-radius: 4px;
+    background-color: var(--secondaryColor);
+    margin-bottom: 2vh;
+    box-shadow: 0 0 15px rgba(100, 100, 100, 0.60);
+    transition: box-shadow 0.15s ease-in-out;
+    cursor: pointer;
+}
+
+.disease-status:hover {
+    box-shadow: 0 0 15px rgba(100, 100, 100, 0.60);
+    transform: scale(1.005);
+}
+
+.detected-disease {
+    height: 40%;
+    width: 75%;
+    border-radius: 4px;
+    background-color:var(--secondaryColor);
+    margin-bottom: 2vh;
+    box-shadow: 0 0 15px rgba(100, 100, 100, 0.60);
+    transition: box-shadow 0.15s ease-in-out;
+    cursor: pointer;
+}
+
+.detected-disease:hover {
+    box-shadow: 0 0 15px rgba(100, 100, 100, 0.60);
+    transform: scale(1.005);
+}
+
+.tumour-status-heading,
+.tumor-type-heading {
+    width: 100%;
+    height: 27%;
+    background: #3b5160;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: var(--secondaryColor);
+}
+
+.tumor-details{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-top: 2vh;
+    width:80%;
+    height: 20vh;
+    font-size: 18px;
+    margin-left: 2vw;
+    font-family: var(--fontPoppins);
+}
+
+.menu-list a {
+    text-decoration: none;
+    color: #000;
+    margin: 0;
+}
+
+.image-upload-heading{
+    font-family: var(--fontPoppins);
+    font-size: 25px;
+}
+
+.tumor-details{
+    font-family: var(--fontPoppins);
+}
+
+.dashboard-panes{
+    display: flex;
+    flex-direction: column;
+    height: 110%;
+}
+
+.display-section{
+    box-shadow: 0 0 15px rgba(100, 100, 100, 0.60);
+}
+
+
+.image-preview-container {
+    position: relative;
+    display: inline-block;
+}
+
+.holder {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    cursor: none;
+}
+
+.magnifying-glass-effect {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid black;
+    cursor: none;
+    background-repeat: no-repeat;
+    background-size: 450% 450%; /* Adjust this value according to your preference */
+    display: none;
+}
+
+.stat{
+    font-size: 24px;
+}
+
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.scan-box {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    opacity: 0.63;
+    color: white;
+    z-index: 20000;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
+.scanning-animation {
+    color: white;
+    font-family: var(--fontPoppins);
+    font-size: 8vh;
+    display: flex;
+    animation: blink 2.0s infinite; /* Adjust duration as needed */
+}
+
+.logo-img {
+    display: flex;
+    height: 9vh;
+    width: 9vh;
+    opacity: 1.0;
+}
+
+
+
+@media (max-width: 1200px) {
+
+    .dashboard-panes{
+        height: max-content;
+    }
+
+    .display-section{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding-bottom: 8%;
+        padding-top: 5%;
+        box-shadow: 2px 1px 2px rgba(100, 100, 100, 0.60);
+    }
+
+    .result-section{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 100%;
+        box-shadow: none;
+        padding-bottom: 5%;
+        padding-top: 5%;
+    }
+
+    .dashboard-main-section{
+        display: flex;
+        flex-direction: column;
+        height: max-content;
+    }
+
+    .image-holding-section{
+        width: 55vw;
+        height: 45vh;
+    }
+
+    .dashboard-copyright{
+        margin-bottom: 10vh;
+    }
+
+    .tumour-status-heading{
+        height: 10vh;
+    }
+
+    .tumor-type-heading{
+        height: 10vh;
+    }
+
+    .tumor-details{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .profile-header{
+        display: flex;
+        flex-direction: row;
+        justify-content: right;
+        width: 50%;
+    }
+
+    .profile-image{
+        margin-right: 15px;
+    }
+
+    .upload-button{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 4vh;
+        width: 55%;
+    }
+
+    .disease-status{
+        margin-bottom: 5%;
+    }
+
+    .image-upload-heading{
+        font-size: 30px;
+    }
+
+    .stat{
+        font-size: 30px;
+    }
+
+    #file-upload-button{
+        align-self: center;
+    }
+
+}
+
+
+@media (max-width:1000px){
+    .profile-header{
+        display:none;
+    }
+
+    .dashboard-heading{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+}

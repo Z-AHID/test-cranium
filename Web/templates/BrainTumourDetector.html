@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/MainPage.css">
+    <link rel="stylesheet" href="../static/css/BrainTumorDitector.css">
+    <link rel="icon" type="image/x-icon" href="../static/images/logo1.png">
+    <title>Cranium Cryptics</title>
+</head>
+<body>
+    <div  class="app-container">
+        <div class="left-pane">
+            <div class="menu-button" onclick="toggleMenu()">
+                <h1 class="main-menu">Menu</h1>
+                <span class="menu-burger">&#9776;</span>
+            </div>
+            <div class="menu-container">
+                <div class="Menu-main-list">
+                    <ul class="menu-list">
+                        <li  class="menu-detail-list" onmouseout="nav_back_highliter()" onmouseover="nav_highliter();">
+                        <a href="/Dashboard"><image src="../static/images/dashboard.png" class="menu-img">Dashboard</image></a></li>
+                        <li  class="menu-detail-list current_page hello">
+                        <a href="/BrainTumourDetector"><image src="../static/images/dashboard.png" class="menu-img">Tumor Detection</image></a></li>
+                        <li  class="menu-detail-list" onmouseout="nav_back_highliter()" onmouseover="nav_highliter();">
+                        <a href="/BrainStrokeDetector"><image src="../static/images/dashboard.png" class="menu-img" >Stroke Detection</image></a></li>
+                        <li  class="menu-detail-list" onmouseout="nav_back_highliter()" onmouseover="nav_highliter();">
+                        <a href="/AlzheimerDiseaseDetector"><image src="../static/images/dashboard.png" class="menu-img">Alzheimer Detection</image></a></li>
+                        <li  class="menu-detail-list" onmouseout="nav_back_highliter()" onmouseover="nav_highliter();">
+                        <a href="/ReportGenerator"><image src="../static/images/dashboard.png" class="menu-img">Report Generator</image></a></li>
+                    </ul>
+                    <section class="logout-section">
+                        <a href="/account" class="logout-account">
+                            <image src="../static/images/account.png" class="menu-img logout-img" id="account-dt"></image>
+                            <p>Account</p>
+                        </a>
+
+                        <a href="/login" class="logout-account-section">
+                            <image src="../static/images/logout.png" class="menu-img logout-img"></image>
+                            <p>Logout</p>
+                        </a>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="right-pane">
+            <div class="dashboard-header">
+                <section class="dashboard-heading">
+                    <h2><span class="heading-span">Cranium</span> Cryptics</h2>
+                    <img src="../static/images/logo1.png" height="20px" width="20px">
+                </section>
+                <section class="profile-header" onmouseover="ProfilePopView()" onmouseout="removeProfileView()">
+                    <image src="../static/images/profile.jpeg" class="profile-image"></image>
+                    <h2 class="user-name">Lakshan Cooray</h2>
+                </section>
+            </div>
+            <div class="dashboard-panes">
+                <section class="dashboard-main-section">
+
+                    <form id="imageForm" class="display-section" id="dropArea" method="post" action="/tumor"
+                          enctype="multipart/form-data">
+                        <h2 class="image-upload-heading">Upload the MRI image here</h2>
+                        <label for="fileInput">
+                             <div class="image-holding-section" id="imagePreview">
+                                <div class="preview-container">
+                                    {% if image_path %}
+                                        <img src="{{ image_path }}" alt="Preview" class="holder"/>
+                                    {% else %}
+                                        <img src="" alt="Preview" class="holder" style="display: none"/>
+                                    {% endif %}
+                                        <div class="magnifying-glass-effect"></div>
+                                </div>
+                                    {% if not image_path %}
+                                        <span class="span-image">Select an image</span>
+                                    {% endif %}
+                            </div>
+
+                        </label>
+                        <input type="file" id="fileInput" class="upload-button" accept="image/*" onchange="previewImage();
+                           displayUpdateTumorStatus()" required name="imagefile">
+                        <button class="scan-button" id="scanButton">Scan Image</button>
+                    </form>
+
+                    <div class="result-section">
+                        <section class="disease-status">
+                            <h2 class="tumour-status-heading">Tumor Detection Status</h2>
+                            <div class="tumor-details">
+                                {% if predicted_class %}
+                                    <h3 id="status" class="tumor-status stat">Status : {{ predicted_class[0] }}</h3>
+                                {% else %}
+                                    <h3 id="status" class="tumor-status stat">Status : Not Scanned</h3>
+                                {% endif %}
+                                {% if predicted_class %}
+                                    <h3 id="probability" class="probability-status stat">Probability : {{ score[0] }}</h3>
+                                {% else %}
+                                    <h3 id="probability" class="probability-status stat">Probability : 0.00</h3>
+                                {% endif %}
+                            </div>
+                        </section>
+                        <section class="detected-disease">
+                            <h2  class="tumor-type-heading">Detected Tumour Type</h2>
+                            <div class="tumor-details">
+                                {% if predicted_class %}
+                                    <h3 class="type-status stat">Type : {{ predicted_class[1] }}</h3>
+                                {% else %}
+                                      <h3 class="type-status stat">Type : Not Scanned</h3>
+                                {% endif %}
+                                {% if predicted_class %}
+                                    <h3  class="probability-status-type stat">Probability : {{ score[1] }}</h3>
+                                {% else %}
+                                    <h3  class="probability-status-type stat">Probability : 0.00</h3>
+                                {% endif %}
+                            </div>
+                        </section>
+                    </div>
+                </section>
+
+                <section class="dashboard-copyright">
+                    <p class="copy-text">Developed by Cranium Cryptics Team &copy; 2024. All rights reserved.</p>
+                </section>
+
+
+                <section class="profile-popup" onmouseover="ProfilePopView()" onmouseout="removeProfileView()">
+                    <div>
+                        <ul class="profile-viewer-list">
+                            <li class="profile-viewer-list-element profile-list1">
+                                <a href="/account" class="pop-link">
+                                    <img src="../static/images/profile2.png" class="menu-img profile-img" alt="View Profile">View Profile
+                                </a>
+                            </li>
+                            <li class="profile-viewer-list-element" id="line-profile"></li>
+                            <li class="profile-viewer-list-element profile-list2">
+                                <a href="/login" class="pop-link">
+                                    <img src="../static/images/signout-removebg-preview.png" class="menu-img profile-img2" alt="Sign Out">Sign Out
+                                </a>
+                            </li>
+                       </ul>
+                    </div>
+                     
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="scan-box">
+        <div class="scanning-animation" id="scanningAnimation">
+               <img src="../static/images/logo1.png" class="logo-img" alt="img-logo">
+               <p>Scanning...</p>
+        </div>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
+    <script src="../static/javaScript/MainPage.js">
+        const image_path = "{{ image_path }}";
+        displayUpdateTumorStatus();
+        window.addEventListener('DOMContentLoaded', function() {
+            clickScan(image_path);
+        });
+
+    </script>
+
+    <script src="../static/javaScript/BrainTumorDitector.js">
+        imageAfterScan();
+    </script>
+
+
+</body>
+</html>

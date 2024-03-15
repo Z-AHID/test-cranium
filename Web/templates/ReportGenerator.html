@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/MainPage.css">
+    <link rel="stylesheet" href="../static/css/BrainTumorDitector.css">
+    <link rel="stylesheet" href="../static/css/reportgenerator.css">
+    <link rel="icon" type="image/x-icon" href="../static/images/logo1.png">
+    <title>Cranium Cryptics</title>
+</head>
+<body>
+    <div  class="app-container">
+        <div class="left-pane">
+            <div class="menu-button" onclick="toggleMenu()">
+                <h1 class="main-menu">Menu</h1>
+                <span class="menu-burger">&#9776;</span>
+            </div>
+            <div class="menu-container">
+                <div class="Menu-main-list">
+                    <ul class="menu-list">
+                        <li  class="menu-detail-list" onmouseout="nav_back_highliter()" onmouseover="nav_highliter();">
+                        <a href="/Dashboard"><image src="../static/images/dashboard.png" class="menu-img">Dashboard</image></a></li>
+                        <li  class="menu-detail-list" onmouseout="nav_back_highliter()" onmouseover="nav_highliter();">
+                        <a href="/BrainTumourDetector"><image src="../static/images/dashboard.png" class="menu-img">Tumor Detection</image></a></li>
+                        <li  class="menu-detail-list" onmouseout="nav_back_highliter()" onmouseover="nav_highliter();">
+                        <a href="/BrainStrokeDetector"><image src="../static/images/dashboard.png" class="menu-img" >Stroke Detection</image></a></li>
+                        <li  class="menu-detail-list" onmouseout="nav_back_highliter()" onmouseover="nav_highliter();">
+                        <a href="/AlzheimerDiseaseDetector"><image src="../static/images/dashboard.png" class="menu-img">Alzheimer Detection</image></a></li>
+                        <li  class="menu-detail-list current_page hello">
+                        <a href="/ReportGenerator"><image src="../static/images/dashboard.png" class="menu-img">Report Generator</image></a></li>
+                    </ul>
+                    <section class="logout-section">
+                        <a href="/account" class="logout-account">
+                            <image src="../static/images/account.png" class="menu-img logout-img" id="account-dt"></image>
+                            <p>Account</p>
+                        </a>
+
+                        <a href="/login" class="logout-account-section">
+                            <image src="../static/images/logout.png" class="menu-img logout-img"></image>
+                            <p>Logout</p>
+                        </a>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="right-pane">
+            <div class="dashboard-header">
+                <section class="dashboard-heading">
+                    <h2><span class="heading-span">Cranium</span> Cryptics</h2>
+                    <img src="../static/images/logo1.png" height="20px" width="20px">
+                </section>
+                <section class="profile-header" onmouseover="ProfilePopView()" onmouseout="removeProfileView()">
+                    <image src="../static/images/profile.jpeg" class="profile-image"></image>
+                    <h2 class="user-name">Lakshan Cooray</h2>
+                </section>
+            </div>
+            <div class="dashboard-panes">
+                <section class="dashboard-main-section">
+                    <div class="main-right">
+                        <form id="imageForm" class="display-section" id="dropArea" method="post" action="/generateReport"
+                           enctype="multipart/form-data">
+                            <h2 class="image-upload-heading">Upload the MRI image here</h2>
+                            <label for="fileInput">
+                            <div class="image-holding-section" id="imagePreview">
+                                <div class="preview-container">
+                                    {% if image_path %}
+                                         <img src="{{ image_path }}" alt="Preview" class="holder"/>
+                                    {% else %}
+                                          <img src="" alt="Preview" class="holder" style="display:none"/>
+                                    {% endif %}
+                                    <div class="magnifying-glass-effect"></div>
+                                    <div class="scan-bar"></div>
+                                </div>
+                                     {% if not image_path %}
+                                        <span class="span-image">Select an image</span>
+                                     {% endif %}
+                            </div>
+                            </label>
+                            <input type="file" id="fileInput" class="upload-button" accept="image/*" onchange="previewImage();displayUpdateReportStatus();disableLink();" required
+                            name="imagefile">
+
+                            <div class="generate-report-tab">
+                                <button class="scan-button">Generate Report</button>
+                                {% if predicted_class %}
+                                    <a href="/report" class="report-link" id="reportLink">Check Report</a>
+                                {% else %}
+                                    <a href="#" class="report-link" id="reportLink">Check Report</a>
+                                {% endif %}
+                            </div>
+                        </form>
+                    </div>
+                    <div class="main-left">
+
+                        <section class="tumor main-board">
+                            <div class="heading-disease heading-top">
+                                <h1>Tumour Status</h1>
+                            </div>
+
+                            {% if predicted_class %}
+                                <div class="description-disease report-tumour">
+                                    <h2>{{ predicted_class["Tumour"] }}</h2>
+                                </div>
+                            {% else %}
+                                <div class="description-disease report-tumour">
+                                    <h2>Not Scanned</h2>
+                                </div>
+                            {% endif %}
+                        </section>
+
+                        <section class="tumour-classification main-board">
+                            <div class="heading-disease">
+                                <h1>Tumour Type</h1>
+                            </div>
+
+                            {% if predicted_class %}
+                                <div class="description-disease report-tumour-type">
+                                    <h2>{{ predicted_class["Tumour Type"] }}</h2>
+                                </div>
+                            {% else %}
+                                <div class="description-disease report-tumour-type">
+                                    <h2>Not Scanned</h2>
+                                </div>
+                            {% endif %}
+
+                        </section>
+
+                        <section class="Stroke main-board">
+                            <div class="heading-disease">
+                                <h1>Stroke Status</h1>
+                            </div>
+
+                            {%  if predicted_class %}
+                                <div class="description-disease report-stroke">
+                                    <h2>{{ predicted_class["Stroke"] }}</h2>
+                                </div>
+                            {% else %}
+                                <div class="description-disease report-stroke">
+                                    <h2>Not Scanned</h2>
+                                </div>
+                            {% endif %}
+                        </section>
+
+                        <section class="alzheimer main-board">
+                             <div class="heading-disease heading-bottom">
+                                <h1>Alzheimer Status</h1>
+                            </div>
+
+                            {% if predicted_class %}
+                                <div class="description-disease report-alzheimer">
+                                    <h2>{{ predicted_class["Alzheimer"] }}</h2>
+                                </div>
+                            {% else %}
+                                <div class="description-disease report-alzheimer">
+                                    <h2>Not Scanned</h2>
+                                </div>
+                            {% endif %}
+
+                        </section>
+
+                    </div>
+
+                </section>
+
+                <section class="dashboard-copyright">
+                    <p class="copy-text">Developed by Cranium Cryptics Team &copy; 2024. All rights reserved.</p>
+                </section>
+
+                <section class="profile-popup" onmouseover="ProfilePopView()" onmouseout="removeProfileView()">
+                    <div>
+                        <ul class="profile-viewer-list">
+                            <li class="profile-viewer-list-element profile-list1">
+                                <a href="/account" class="pop-link">
+                                    <img src="../static/images/profile2.png" class="menu-img profile-img" alt="View Profile">View Profile
+                                </a>
+                            </li>
+                            <li class="profile-viewer-list-element" id="line-profile"></li>
+                            <li class="profile-viewer-list-element profile-list2">
+                                <a href="/login" class="pop-link">
+                                    <img src="../static/images/signout-removebg-preview.png" class="menu-img profile-img2" alt="Sign Out">Sign Out
+                                </a>
+                            </li>
+                       </ul>
+                    </div>
+
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="scan-box">
+        <div class="scanning-animation" id="scanningAnimation">
+               <img src="../static/images/logo1.png" class="logo-img" alt="img-logo">
+               <p>Scanning...</p>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
+    <script src="../static/javaScript/MainPage.js">
+        workSpaceGenerator();
+        displayUserName();
+    </script>
+
+    <script src="../static/javaScript/BrainTumorDitector.js">
+    </script>
+
+</body>
+</html>
